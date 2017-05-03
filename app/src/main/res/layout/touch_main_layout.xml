@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:scaleType="fitXY" >
+
+    <LinearLayout
+        android:id="@+id/ppt_phone_remote_page_controller_main"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:scaleType="fitXY" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/ppt_phone_remote_page_tip_margin_top"
+            android:scaleType="fitXY" >
+        </RelativeLayout>
+
+        <!-- 引导图布局 -->
+
+        <ImageView
+            android:layout_width="@dimen/ppt_phone_remote_main_guide_width"
+            android:layout_height="@dimen/ppt_phone_remote_main_guide_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/ppt_phone_remote_guide_connection_margin_top"
+            android:paddingLeft="@dimen/ppt_phone_remote_page_tip_pandding_left_right"
+            android:paddingRight="@dimen/ppt_phone_remote_page_tip_pandding_left_right"
+            android:src="@drawable/ppt_phone_remote_operator_run" />
+
+        <!-- 操作提示布局 -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ppt_phone_remote_operator_tip_margin_top"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ppt_remote_operator_tip"
+            android:textColor="@color/ppt_phone_remote_text_color"
+            android:textSize="@dimen/ppt_phone_remote_operator_tip_text_size" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ppt_remote_img_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY" >
+    </ImageView>
+
+</LinearLayout>
