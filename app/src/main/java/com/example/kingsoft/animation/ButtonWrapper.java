@@ -3,7 +3,7 @@ package com.example.kingsoft.animation;
 import android.widget.Button;
 
 /**
- * Created by kingsoft on 2017/6/2.
+ * Created by qiubowang on 2017/6/2.
  */
 
 public class ButtonWrapper {

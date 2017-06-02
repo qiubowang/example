@@ -1,0 +1,133 @@
+安卓Animation
+1、View动画：translate,rotate,scale,alpha
+2、Frame动画。AnimationDrawable(资源文件为drawable的文件，标签为 animaton-list),帧动画主要是图片切换。
+3、属性动画：包括AnimationSet(属性动画集合)，ValueAnimation(只是动画本身，无法设置给属性)，ObjectAnimation(继承于ValueAnimation，只比ValueAnimation多一个properName，可以直接对属性进行动画)。
+
+一、View动画。
+	只有四种动画方式translate,rotate,scale,alpha。资源文件在anim文件夹。
+	资源文件代码如下：
+	<?xml version="1.0" encoding="utf-8"?>
+   	<set xmlns:android="http://schemas.android.com/apk/res/android"
+		android:shareInterpolator="true"
+		android:duration="10000"
+		android:fillAfter="false">
+		<!--<translate-->
+			<!--android:fromXDelta="0"-->
+			<!--android:fromYDelta="0"-->
+			<!--android:toXDelta="200"-->
+			<!--android:toYDelta="400">-->
+		<!--</translate>-->
+		<scale
+			android:fromXScale="0.5"
+			android:fromYScale="0.5"
+			android:toXScale="3"
+			android:toYScale="3">
+		</scale>
+		<alpha android:fromAlpha="1.0" android:toAlpha="0.2"></alpha>
+		<rotate android:fromDegrees="0" android:toDegrees="360" ></rotate>
+	</set>
+	
+	Android代码编写如下：
+	private void clickAnimation(final ImageView imageView){
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f,0.0f);
+        alphaAnimation.setDuration(1000);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f,3.0f,1.0f,3.0f,Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+        scaleAnimation.setDuration(1000);
+        AnimationSet animationSet = new AnimationSet(false);
+
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.setFillEnabled(true);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.setAnimationListener(getAnimationListener(imageView));
+        imageView.startAnimation(animationSet);
+    }
+	
+二、帧动画AnimationDrawable,对应资源文件路径在drawable中，帧动画主要是为了图片的动画切换。
+	帧动画资源文件定义代码：
+	<?xml version="1.0" encoding="utf-8"?>
+	<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+		<item android:drawable="@drawable/image1" android:duration="500"></item>
+		<item android:drawable="@drawable/image2" android:duration="500"></item>
+		<item android:drawable="@drawable/image3" android:duration="500"></item>
+		<item android:drawable="@drawable/image4" android:duration="500"></item>
+		<item android:drawable="@drawable/image5" android:duration="500"></item>
+		<item android:drawable="@drawable/image6" android:duration="500"></item>
+		<item android:drawable="@drawable/image7" android:duration="500"></item>
+		<item android:drawable="@drawable/image8" android:duration="500"></item>
+		<item android:drawable="@drawable/image9" android:duration="500"></item>
+		<item android:drawable="@drawable/image10" android:duration="500"></item>
+	</animation-list>
+	
+	相关的JAVA代码如下：
+	LinearLayout mLinearLayout = (LinearLayout)findViewById(R.id.frame_animation_layout);
+	mLinearLayout.setBackgroundResource(R.drawable.frame_animation);
+	AnimationDrawable animationDrawable = (AnimationDrawable)mLinearLayout.getBackground();
+	animationDrawable.start();
+	
+三、属性动画。属性动画包含AnimationSet、ValueAnimation、ObjectAnimation。
+	1、AnimatorSet 设置动画集合。
+
+	AnimatorSet set = new AnimatorSet();
+	set.playTogether(ObjectAnimator.ofFloat(mViewObjectButton, "rotationX", 0, 180),
+		ObjectAnimator.ofFloat(mViewObjectButton, "rotationY", 0, 180),
+		ObjectAnimator.ofFloat(mViewObjectButton, "scaleX", 1, 1.2f),
+		ObjectAnimator.ofFloat(mViewObjectButton, "alpha", 1, 0.4f));
+	set.setDuration(5 * 1000).start();
+	
+	AnimatorSet设置了同一个对象mViewObjectButton同时进行3种属性动画。playTogether指定了参数中的3中属性同时进行动画，如果是playSequentially，则是指定本对象按照顺序执行动画。
+	2、ValueAnimator本属性动画不正对任何属性，仅仅是定义一个动画而已，如果要让View对象的某个属性执行本动画，则需要根据AnimatorUpdateListener对动画值进行监听，从而在里面间接的设置属性值。AnimatorUpdateListener：动画的每一帧变化都会触发AnimatorUpdateListener，从而可以将变化的值复制给属性，间接达到动画效果。
+
+	ValueAnimator testValAnim = ValueAnimator.ofInt(1, 100);
+	final IntEvaluator evaluator = new IntEvaluator();//给一个估值器，使得onAnimationUpdate更新中能估算出按钮尺寸
+	testValAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+		 @ Override
+		public void onAnimationUpdate(ValueAnimator valueAnimator) {
+			//获取当前动画进度，1 -100之间
+			int currentVal = (Integer)valueAnimator.getAnimatedValue();
+			//获取当前进度的百分比值
+			float fraction = valueAnimator.getAnimatedFraction();
+			//获取估算出来的值
+			mTestButton.getLayoutParams().width = evaluator.evaluate(fraction, testButtonStartWidth, 500);
+			mTestButton.requestLayout();
+		}
+	});
+	testValAnim.setDuration(5000).start();
+	
+	采用ValueAnimator实现动画，这里通过采用设置Button的宽度，是因为Button中的setWidth()设置的值并非Button的宽度，请查阅相关文档。
+	因此，如果需要更新Button的宽度是没法通过属性动画来直接完成的(属性动画必须拥有该属性的set方法)，那么就需要间接来设置。
+	
+	3、ObjectAnimator继承于ValueAnimator，仅仅比ValueAnimator多一个peropertyName即是属性的名称，因此ObjectAnimator可以根据指定的peropertyName来对对象属性直接做动画，ObjectAnimator原理：ofFloat(mViewObjectButton, "rotationX",0 , 180)，mViewObjectButton对象名称，"rotationX"是View对象中有方法setRotationX来设定本View的X方向旋转值的，因此"rotationX"是根据
+	反射setRotationX获取到的方法名称，通过不断的反射设置该值，从而就不停的重新设置了rotation达到了动画效果。从而可以判定，如果要执行ObjectAnimator，则view中必须拥有该set方法，否则无法产生动画；
+	如果view中没有设置属性的初始值，则还必须拥有getXXX的方法，XXX为获取该属性值的方法，否则也无法产生动画。
+
+	import android.widget.Button;
+
+	public class ButtonWrapper {
+		private Button mButton = null;
+
+		public ButtonWrapper(Button button) {
+			mButton = button;
+		}
+
+		public void setWidth(int width) {
+			mButton.getLayoutParams().width = width;
+			mButton.requestLayout();
+		}
+
+		public int getWidth() {
+			return mButton.getLayoutParams().width;
+		}
+
+		public void setHeight(int height) {
+			mButton.getLayoutParams().height = height;
+			mButton.requestLayout();
+		}
+
+		public int getHeight() {
+			return mButton.getLayoutParams().height;
+		}
+	}
+
+	//既然不能通过属性动画来设置Button的尺寸，那么可以将Button进行包装，让包装层拥有set，get属性从而达到直接使用属性动画来完成尺寸设置
+	ObjectAnimator buttonAnim = ObjectAnimator.ofInt(mButtonWrapper, "width", 500);
+	buttonAnim.setDuration(5000).start();

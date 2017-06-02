@@ -70,22 +70,22 @@ public class ObjectAnimationActivity extends Activity implements View.OnClickLis
 
             //采用ValueAnimator实现动画，这里通过采用设置Button的宽度，是因为Button中的setWidth()设置的值并非Button的宽度，请查阅相关文档。
             //因此如果需要更新Button的宽度是没法通过属性动画来直接完成的(属性动画必须拥有该属性的set方法)，那么就需要间接来设置。
-//            ValueAnimator testValAnim = ValueAnimator.ofInt(1,100);
-//            final IntEvaluator evaluator = new IntEvaluator();
-//            testValAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                @Override
-//                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-//                    //获取当前动画进度，1 -100之间
-//                    int currentVal = (Integer) valueAnimator.getAnimatedValue();
-//                    //获取当前进度的百分比值
-//                    float fraction = valueAnimator.getAnimatedFraction();
-//                    //获取估算出来的值
-//                    mTestButton.getLayoutParams().width = evaluator.evaluate(fraction,testButtonStartWidth, 500);
-//                    mTestButton.requestLayout();
-//                }
-//            });
-//            testValAnim.setDuration(5000)
-//                    .start();
+            ValueAnimator testValAnim = ValueAnimator.ofInt(1,100);
+            final IntEvaluator evaluator = new IntEvaluator();
+            testValAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    //获取当前动画进度，1 -100之间
+                    int currentVal = (Integer) valueAnimator.getAnimatedValue();
+                    //获取当前进度的百分比值
+                    float fraction = valueAnimator.getAnimatedFraction();
+                    //获取估算出来的值
+                    mTestButton.getLayoutParams().width = evaluator.evaluate(fraction,testButtonStartWidth, 500);
+                    mTestButton.requestLayout();
+                }
+            });
+            testValAnim.setDuration(5000)
+                    .start();
 
             //既然不能通过属性动画来设置Button的尺寸，那么可以将Button进行包装，让包装层拥有set，get属性从而达到直接使用属性动画来完成尺寸设置
             ObjectAnimator buttonAnim = ObjectAnimator.ofInt(mButtonWrapper, "width", 500);
