@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".FirstActivity"
+            android:name="com.example.kingsoft.animation.ObjectAnimationActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
