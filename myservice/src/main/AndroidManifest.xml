@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.myservice">
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+        <service
+            android:name=".BookLibraryManagerService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ServiceMainActivity"></activity>
+    </application>
+
+</manifest>

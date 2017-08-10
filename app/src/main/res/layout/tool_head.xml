@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="100px">
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/weixin_log" />
+    <ImageView
+        android:id="@+id/more_image"
+        android:layout_width="120px"
+        android:layout_height="match_parent"
+        android:src="@drawable/more"
+        android:layout_alignParentRight="true"/>
+    <ImageView
+        android:id="@+id/add_image"
+        android:layout_width="120px"
+        android:layout_height="match_parent"
+        android:src="@drawable/add"
+        android:layout_toLeftOf="@id/more_image"/>
+    <ImageView
+        android:layout_width="120px"
+        android:layout_height="match_parent"
+        android:src="@drawable/serch"
+        android:layout_toLeftOf="@id/add_image"/>
+</RelativeLayout>

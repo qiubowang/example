@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <com.example.kingsoft.CustomWidget.AutoAdjustButton
+        android:text="特殊所所所所所所所胜多负少的范德萨发大水"
+        android:layout_height="100dp"
+        android:layout_width="200dp"
+        MaxLine="1"/>
+    <com.example.kingsoft.CustomWidget.AutoTextView
+        android:text="发家啊来看就的垃圾啊龙卷风的流口水"
+        android:layout_height="100dp"
+        android:layout_width="200dp"
+        android:background="#ff0000"
+        android:gravity="center"
+        android:layout_gravity="center"
+        MaxLine="1"/>
+
+    <com.example.kingsoft.CustomWidget.AutoCircle
+        android:layout_height="200dp"
+        android:layout_width="200dp"
+        android:background="#00ff00"
+        android:gravity="center"
+        android:layout_gravity="center" />
+</LinearLayout>

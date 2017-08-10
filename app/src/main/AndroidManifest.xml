@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kingsoft.CustomAdapter">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,9 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.kingsoft.animation.ObjectAnimationActivity"
-            android:label="@string/app_name"
+            android:name="com.example.kingsoft.ActivityLibs.CustomWidgetActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,24 +21,55 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".SecondActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|screenSize"
-            android:launchMode="standard">
+            android:launchMode="standard"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ThirdActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".ThirdActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|screenSize"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.kingsoft.ActivityLibs.Aidl2Activity" />
+
+        <receiver android:name="com.example.kingsoft.MyRemoteViews.MyWidgetProvider">
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_info" />
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.kingsoft.MyRemoteViews.CLICK_ACTION" />
+            </intent-filter>
+        </receiver>
+
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="${UMC}" />-->
+
+        <!-- <activity -->
+        <!-- android:name="com.example.kingsoft.MyRemoteViews.RemoteViewsActivity" -->
+        <!-- android:launchMode="standard" -->
+        <!-- android:process=":bobo" /> -->
+
+        <service
+            android:name="com.example.kingsoft.MyRemoteViews.RemoteViewsService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remoteService" />
     </application>
 
 </manifest>

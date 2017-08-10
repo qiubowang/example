@@ -1,27 +1,296 @@
 apply plugin: 'com.android.application'
+apply plugin: "maven"
 
+//buildscript {
+//    repositories {
+//        maven {
+//            url uri('../publish')
+//        }
+//    }
+//    dependencies {
+//        classpath 'com.bobo.plugin:pluginlibrary:3.0.0'
+//    }
+//}
+//
+//apply plugin: 'testPluginPro'
+//
+//personInfo {
+//    name = "bobo"
+//    age = 25
+//    sex = "man"
+//    address = "广东珠海"
+//    company = "金山软件"
+//    companyAddress = "吉大莲山巷8号金山软件大厦"
+//}
+
+def keystoreFilePath
+def keystorePassword
+def keystoreAlias
+def keystoreAliasPassword
+def keyFile = file('s.keystore.temp')
+
+Properties properties = new Properties();
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+keystoreFilePath = properties.getProperty("keystore.path")
+if (keystoreFilePath) {
+    keystoreAlias = properties.getProperty("keystore.keyAlias")
+    keystoreAliasPassword = properties.getProperty("keystore.keyAliasPassword")
+    keystorePassword = properties.getProperty("keystore.storePassword")
+    keyFile = file('keystore.path')
+}
 android {
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
-
     defaultConfig {
         applicationId "com.example.kingsoft.studyproject"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        jackOptions {
+            enabled true
+
+        }
     }
+
+    signingConfigs {
+        config {
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPassword
+            storeFile keyFile
+            storePassword keystorePassword
+        }
+    }
+
     buildTypes {
         release {
+            println("come hear release");
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (keyFile.exists()) {
+                println("WITH -> buildTypes -> release: using jks key")
+                signingConfig signingConfigs.release
+
+            } else {
+                println("WITH -> buildTypes -> release: using default key")
+            }
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && output.name.endsWith('.apk')) {
+                        def fileName = "bobo_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+            signingConfig signingConfigs.config
         }
+        debug {
+            println("come hear debug");
+        }
+    }
+//    flavorGroups "abc","emf"
+//    flavorGroups 'abi', 'version'
+//    productFlavors {
+//        baidu {
+////            manifestPlaceholders = [UMC:"baidu"]
+//        }
+//        xiaomi {
+////            manifestPlaceholders = [UMC:"xiaomi"]
+//        }
+//        wandoujia {
+////            manifestPlaceholders = [UMC:"wandoujia"]
+//        }
+//        qihu360 {
+////            manifestPlaceholders = [UMC:"qihu360"]
+//        }
+//        yingyongbao {
+////            manifestPlaceholders = [UMC:"yingyongbao"]
+//        }
+//    }
+//    productFlavors.all { flavor ->
+//        flavor.manifestPlaceholders = [UMC: name]
+//    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile fileTree(include: ['*.jar'], dir: '../libs')
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }
+
+task oneTask {
+    doLast {
+        println("Hello")
+    }
+}
+
+task twoTask(dependsOn: oneTask) {
+    doLast {
+        println(" World!")
+        if (null == project) {
+            println("mainProject is null");
+        } else {
+            println("mainProject is not null");
+            println(project.rootProject.name)
+            println(project.name)
+        }
+        project.rootProject.subprojects { subproject ->
+            println(subproject.name)
+        }
+    }
+}
+
+task testVari {
+    doLast {
+        android.applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                println(output.name)
+                if (outputFile != null && output.name.contains("wandou")) {
+                    def fileName = "bobo_v${android.defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                    output.outputFile = new File(outputFile.parent, fileName)
+                    println(fileName)
+                }
+            }
+        }
+    }
+}
+
+
+
+
+apply plugin: 'maven'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = GROUP_ID
+            pom.artifactId = ARTIFACT_ID
+            pom.version = VERSION
+            repository(url: RELEASE_REPOSITORY_URL) {
+                authentication(userName: USERNAME, password: PASSWORD)
+            }
+        }
+    }
+}
+
+//def greetingFile = "$buildDir/hello.txt"
+//
+//
+//class GreetingToFileTask extends DefaultTask{
+//    def destination
+//    File getDestination(){
+//        project.file(destination)
+//    }
+//
+//    @TaskAction
+//    def greet(){
+//        def file = getDestination()
+//        file.parentFile.mkdir();
+//        file.write("123456")
+//    }
+//}
+//
+//task greet(type:GreetingToFileTask){
+//    destination = {greetingFile}
+//    greet()
+//}
+//
+//task sayGreeting(dependsOn: greet){
+//    println(file(greetingFile).text)
+//}
+
+apply plugin: 'DateTime'
+dateAndTime {
+    timeFormat = 'HH:mm:ss.SSS'
+    dateFormat = 'MM/dd/yyyy'
+}
+
+apply plugin: 'MyInfo'
+customPlugin {
+    name = "bobo"
+    age = "25"
+    address = "广东珠海"
+}
+
+customFruitPlugin {
+    apple = "apple"
+    orange = "orange"
+    banana = "banana"
+}
+
+//apply plugin: GreetingPlugin
+//
+//greeting {
+//    firstName = "wangqiu "
+//    lastName = "bo"
+//}
+
+class GreetingPlugin implements Plugin<Project> {
+
+    /**
+     * Apply this plugin to the given target object.
+     *
+     * @param target The target object
+     */
+    @Override
+    void apply(Project target) {
+        target.extensions.create("greeting", GreetingPluginExtension)
+        target.task("hello") << {
+            println("${target.greeting.firstName} is ${target.greeting.lastName}")
+        }
+
+    }
+}
+
+class GreetingPluginExtension {
+    def firstName = "firstName ";
+    def lastName = "lastName";
+}
+
+//class TimingsListener implements TaskExecutionListener, BuildListener {
+//    private Clock clock
+//    private timings = []
+//
+//    @Override
+//    void beforeExecute(Task task) {
+//        clock = new org.gradle.util.Clock()
+//    }
+//
+//    @Override
+//    void afterExecute(Task task, TaskState taskState) {
+//        def ms = clock.timeInMs
+//        timings.add([ms, task.path])
+//        task.project.logger.warn "${task.path} took ${ms}ms"
+//    }
+//
+//    @Override
+//    void buildFinished(BuildResult result) {
+//        println "Task timings:"
+//        for (timing in timings) {
+//            if (timing[0] >= 50) {
+//                printf "%7sms  %s\n", timing
+//            }
+//        }
+//    }
+//
+//    @Override
+//    void buildStarted(Gradle gradle) {}
+//
+//    @Override
+//    void projectsEvaluated(Gradle gradle) {}
+//
+//    @Override
+//    void projectsLoaded(Gradle gradle) {}
+//
+//    @Override
+//    void settingsEvaluated(Settings settings) {}
+//}
+//
+//gradle.addListener new TimingsListener()

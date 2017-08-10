@@ -30,6 +30,7 @@ public class ViewAnimationActivity extends Activity implements View.OnClickListe
         mLinearLayout = (LinearLayout)findViewById(R.id.frame_animation_layout) ;
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.view_anim);
         mButton.setAnimation(animation);
+        startActivity(null);
     }
 
     @Override

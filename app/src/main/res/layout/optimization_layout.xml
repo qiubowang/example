@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/opt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="layout优化" />
+
+    <Button
+        android:id="@+id/opt_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewStub测试" />
+
+    <ViewStub
+        android:id="@+id/opt_view_stub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout="@layout/view_stub_layout" />
+</LinearLayout>

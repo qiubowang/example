@@ -86,7 +86,7 @@ public class MyBaseAdapter extends BaseAdapter {
         List<Map<String,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("title","G1");
-        map.put("title","Goolgle 1");
+        map.put("info","Goolgle 1");
         map.put("img", R.drawable.ppt_phone_remote_operator_run);
         list.add(map);
 

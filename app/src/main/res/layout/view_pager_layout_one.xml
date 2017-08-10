@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="800px"
+    android:layout_height="1000px"
+    android:gravity="center"
+    android:background="#f00">
+    <TextView
+        android:text="第一个Fragement"
+        android:layout_width="100px"
+        android:layout_height="50px" />
+    <!--<Button-->
+        <!--android:id="@+id/fragment1_button"-->
+        <!--android:layout_width="100px"-->
+        <!--android:layout_height="50px" />-->
+</LinearLayout>

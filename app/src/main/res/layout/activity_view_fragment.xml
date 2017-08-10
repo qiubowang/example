@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kingsoft.ActivityLibs.ViewFragmentActivity">
+    <LinearLayout
+        android:id="@+id/switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/frament1_button"
+            android:text="切换到frame1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/frament2_button"
+            android:text="切换到frame2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <fragment
+        android:id="@+id/frament1"
+        android:layout_below="@id/switch_layout"
+        android:name="com.example.kingsoft.ViewPagerLibs.Fragment1"
+        android:layout_width="800px"
+        android:layout_height="1000px">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/frament2"
+        android:layout_below="@id/frament1"
+        android:name="com.example.kingsoft.ViewPagerLibs.Fragment2"
+        android:layout_width="800px"
+        android:layout_height="400px">
+
+    </fragment>
+
+</RelativeLayout>
