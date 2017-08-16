@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:ad="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#0000ff">
     <com.example.kingsoft.CustomWidget.AutoAdjustButton
         android:text="特殊所所所所所所所胜多负少的范德萨发大水"
         android:layout_height="100dp"
         android:layout_width="200dp"
+        ad:maxLineNum="1"
         MaxLine="1"/>
     <com.example.kingsoft.CustomWidget.AutoTextView
         android:text="发家啊来看就的垃圾啊龙卷风的流口水"
@@ -23,4 +27,8 @@
         android:background="#00ff00"
         android:gravity="center"
         android:layout_gravity="center" />
+    <com.example.kingsoft.CustomWidget.MaterialProgressBarHorizontal
+        android:id="@+id/public_shareplay_custom_progressbar_materialBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

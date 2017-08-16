@@ -5,10 +5,18 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="D:/AndroidDev/gradle-2.14.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/customservice" />
+            <option value="$PROJECT_DIR$/libs" />
+            <option value="$PROJECT_DIR$/myservice" />
+            <option value="$PROJECT_DIR$/pluginlibrary" />
+            <option value="$PROJECT_DIR$/testapplication" />
+            <option value="$PROJECT_DIR$/utiltestlib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

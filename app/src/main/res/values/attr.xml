@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StudyAppTheme">
+        <attr name="MaterialProgressBarHorizontal" format="reference"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="MaterialProgressBarHorizontal">
+        <attr name="indeterminate" format="boolean" />
+        <!-- bg color-->
+        <attr name="bgColor" format="color" />
+        <!-- bar color -->
+        <attr name="barColor" format="color" />
+        <attr name="duration" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="AutoAdjustButton">
+        <attr name="maxLineNum" format="integer" />
+    </declare-styleable>
+</resources>

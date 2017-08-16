@@ -17,4 +17,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ThemeBase" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="MaterialProgressBarHorizontal">@style/material_progressbar_horizontal</item>
+    </style>
+    <style name="material_progressbar_horizontal">
+        <item name="indeterminate">true</item>
+        <item name="barColor">#ff0ea7fa</item>
+        <item name="bgColor">#ffb3e1fa</item>
+        <item name="duration">1200</item>
+    </style>
+
 </resources>

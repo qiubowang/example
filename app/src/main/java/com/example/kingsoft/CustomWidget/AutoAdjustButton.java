@@ -2,10 +2,13 @@ package com.example.kingsoft.CustomWidget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Debug;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.Button;
+
+import com.example.kingsoft.CustomAdapter.R;
 
 /**
  * 自定义属性MaxLine:
@@ -33,8 +36,9 @@ public class AutoAdjustButton extends Button {
 	
 	public AutoAdjustButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		if (attrs != null)
-		{
+		if (attrs != null) {
+			TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AutoAdjustButton);
+			int mMaxLine = typedArray.getInt(R.styleable.AutoAdjustButton_maxLineNum, 10);
 			mDefaultTextSize = getTextSize();
 			mMaxLine =  attrs.getAttributeIntValue(null, "MaxLine", mMaxLine);
 		}

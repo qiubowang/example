@@ -1,27 +1,69 @@
 apply plugin: 'com.android.application'
 apply plugin: "maven"
+apply plugin: 'testPluginPro'
 
-//buildscript {
-//    repositories {
-//        maven {
-//            url uri('../publish')
-//        }
-//    }
-//    dependencies {
-//        classpath 'com.bobo.plugin:pluginlibrary:3.0.0'
-//    }
-//}
+//这里添加下面两行代码。
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+
+
+
+buildscript {
+    repositories {
+        maven {
+            url uri('../publish')
+        }
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bobo.plugin:pluginlibrary:3.0.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: '../libs')
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}
+
+//ext {
+//    bintrayRepo = 'maven'
+//    bintrayName = 'app'
 //
-//apply plugin: 'testPluginPro'
+//    publishedGroupId = 'com.example.kingsoft'
+//    libraryName = 'FBLike'
+//    artifact = 'app'
 //
-//personInfo {
-//    name = "bobo"
-//    age = 25
-//    sex = "man"
-//    address = "广东珠海"
-//    company = "金山软件"
-//    companyAddress = "吉大莲山巷8号金山软件大厦"
+//    libraryDescription = 'A wrapper for Facebook Native Like Button (LikeView) on Android'
+//
+//    siteUrl = 'https://github.com/nuuneoi/study'
+//    gitUrl = 'https://github.com/nuuneoi/study.git'
+//
+//    libraryVersion = '1.0.0'
+//
+//    developerId = 'bobo'
+//    developerName = 'bobo'
+//    developerEmail = 'wangqiubo2007@126.com'
+//
+//    licenseName = 'The Apache Software License, Version 2.0'
+//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//    allLicenses = ["Apache-2.0"]
 //}
+
+
+
+personInfo {
+    name = "bobo"
+    age = 25
+    sex = "man"
+    address = "广东珠海"
+    company = "金山软件"
+    companyAddress = "吉大莲山巷8号金山软件大厦"
+}
 
 def keystoreFilePath
 def keystorePassword
@@ -53,14 +95,14 @@ android {
         }
     }
 
-    signingConfigs {
-        config {
-            keyAlias keystoreAlias
-            keyPassword keystoreAliasPassword
-            storeFile keyFile
-            storePassword keystorePassword
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias keystoreAlias
+//            keyPassword keystoreAliasPassword
+//            storeFile keyFile
+//            storePassword keystorePassword
+//        }
+//    }
 
     buildTypes {
         release {
@@ -83,7 +125,7 @@ android {
                     }
                 }
             }
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
         debug {
             println("come hear debug");
@@ -117,13 +159,83 @@ android {
     }
 }
 
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: '../libs')
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+def siteUrl =  'https://github.com/qiubowang/study'
+//def gitUrl = 'git@github.com:qiubowang/study.git'
+def gitUrl = 'https://github.com/qiubowang/study.git'
+group = "com.example.kingsoft"
+version = "1.0"
+install{
+    repositories.mavenInstaller{
+        pom{
+            project{
+                packaging 'aar'
+                name 'test for Android'
+                description 'test maven upload'
+                url siteUrl
+                licenses{
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+                developers{
+                    id 'bobo'
+                    name 'bobo'
+                    email 'wangqiubo2017@126.com'
+                }
+                // SCM，复制我的，这里不需要修改。
+                scm {
+                    connection gitUrl // Git仓库地址。
+                    developerConnection gitUrl // Git仓库地址。
+                    url siteUrl // 项目主页。
+                }
+            }
+        }
+    }
 }
+
+// 生成jar包的task，不需要修改。
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+// 生成jarDoc的task，不需要修改。
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    // destinationDir = file("../javadoc/")
+    failOnError false // 忽略注释语法错误，如果用jdk1.8你的注释写的不规范就编译不过。
+}
+// 生成javaDoc的jar，不需要修改。
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+def bintray_user = properties.getProperty("bintray.user")
+def bintray_key = properties.getProperty("bintray.apike")
+
+bintray{
+    user = bintray_user
+    key = bintray_key
+    configurations = ['archives']
+
+    pkg{
+        repo = "maven"
+        name = "app"
+        userOrg = "bobygood"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+
+
+
+
 
 task oneTask {
     doLast {

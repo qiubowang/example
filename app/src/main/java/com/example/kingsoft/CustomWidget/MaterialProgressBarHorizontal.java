@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
+import android.os.Debug;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -39,29 +40,31 @@ public class MaterialProgressBarHorizontal extends View {
 
 	// Set atributtes of XML to View
 	protected void setAttributes(Context context, AttributeSet attrs, int defStyleRes) {
+//        Debug.waitForDebugger();
 		ResouceManager rm = new ResouceManager(context);
 		
-		TypedArray a = context.obtainStyledAttributes(attrs, rm.getStyleableArr("MaterialProgressBarHorizontal"), 0, defStyleRes);
+		TypedArray typeArray = context.obtainStyledAttributes(attrs, rm.getStyleableArr("MaterialProgressBarHorizontal"), 0, defStyleRes);
 		setMinimumHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, minHeight, getResources().getDisplayMetrics()));
 		
-		backgroundColor = a.getColor(rm.getStyleableId("MaterialProgressBarHorizontal_bgColor"), backgroundColor);
-		indeterminate = a.getBoolean(rm.getStyleableId("MaterialProgressBarHorizontal_indeterminate"), indeterminate);
-		duration = a.getInt(rm.getStyleableId("MaterialProgressBarHorizontal_duration"), duration);
+		backgroundColor = typeArray.getColor(rm.getStyleableId("MaterialProgressBarHorizontal_bgColor"), backgroundColor);
+		indeterminate = typeArray.getBoolean(rm.getStyleableId("MaterialProgressBarHorizontal_indeterminate"), indeterminate);
+		duration = typeArray.getInt(rm.getStyleableId("MaterialProgressBarHorizontal_duration"), duration);
 	
-		int progressColor = a.getColor(rm.getStyleableId("MaterialProgressBarHorizontal_barColor"), 0xff0ea7fa);
+		int progressColor = typeArray.getColor(rm.getStyleableId("MaterialProgressBarHorizontal_barColor"), 0xff0ea7fa);
 		backgroundColor = 0xffb3e1fa;
 		indeterminate = true;
 		duration = 1200;
 		
 		mPaint.setColor(progressColor);
 		setBackgroundColor(backgroundColor);
-		a.recycle();
+		typeArray.recycle();
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		
+
+//		Debug.waitForDebugger();
 		canvas.drawColor(backgroundColor);
 		
 		if (indeterminate)
@@ -84,6 +87,7 @@ public class MaterialProgressBarHorizontal extends View {
 	
 	private void drawProgress(Canvas canvas, int currentProgress)
 	{
+
 		if (currentProgress > max)
 			progress = max;
 		if (currentProgress < min)
