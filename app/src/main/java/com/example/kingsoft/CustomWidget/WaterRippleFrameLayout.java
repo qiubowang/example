@@ -30,6 +30,19 @@ public class WaterRippleFrameLayout extends FrameLayout{
         super(context);
     }
 
+    public WaterRippleFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public WaterRippleFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public WaterRippleFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_UP){
@@ -56,7 +69,7 @@ public class WaterRippleFrameLayout extends FrameLayout{
             float curX = ev.getX();
             float curY = ev.getY();
             mImageView.setVisibility(VISIBLE);
-            ViewLayoutUnitl.setViewMargin(mImageView, (int)(curX - mImageView.getWidth()/2), (int)(curY - mImageView.getHeight()/2));
+            ViewLayoutUnitl.setViewMargin(mImageView, (int)(curX - mImageView.getWidth()/2), (int)(curY - mImageView.getHeight()/2), (int)curX, (int)curY);
             doWaterRippleAnim(mImageView);
         }
     }
@@ -89,7 +102,7 @@ public class WaterRippleFrameLayout extends FrameLayout{
     }
 
     public static class  ViewLayoutUnitl{
-        public static void setViewMargin(View view, int x, int y){
+        public static void setViewMargin(View view, int x, int y, int m, int n){
             ViewGroup.LayoutParams params = view.getLayoutParams();
             if (params instanceof FrameLayout.LayoutParams){
                 ((MarginLayoutParams)params).leftMargin = x;
