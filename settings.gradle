@@ -1,1 +1,1 @@
-include ':app', ':utiltestlib', ':libs', ':myservice', ':customservice', ':testapplication', ':pluginlibrary'
+include ':app', ':utiltestlib', ':libs', ':myservice', ':customservice', ':testapplication', ':pluginlibrary', ':mavenlibrary'

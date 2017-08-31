@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/customservice" />
             <option value="$PROJECT_DIR$/libs" />
+            <option value="$PROJECT_DIR$/mavenlibrary" />
             <option value="$PROJECT_DIR$/myservice" />
             <option value="$PROJECT_DIR$/pluginlibrary" />
             <option value="$PROJECT_DIR$/testapplication" />
